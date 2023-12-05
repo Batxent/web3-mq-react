@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useContext } from 'react';
 
 export type MessageInputContextValue = {
   isThread: boolean;
-  sendMessage: (text: string) => void;
+  sendMessage: (text: string, cipher_suite: string) => void;
   closeReply: () => void;
 };
 

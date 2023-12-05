@@ -11,6 +11,7 @@ import image from '@rollup/plugin-image';
 import alias from '@rollup/plugin-alias';
 import svg from 'rollup-plugin-svg';
 import postcss from 'rollup-plugin-postcss';
+import { wasm } from '@rollup/plugin-wasm';
 import pkg from './package.json';
 
 process.env.NODE_ENV = 'production';
@@ -18,7 +19,7 @@ process.env.NODE_ENV = 'production';
 const getPath = (_path) => path.resolve(__dirname, _path);
 const isDev = process.env.ROLLUP_WATCH || false;
 
-const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+const extensions = ['.js', '.jsx', '.ts', '.tsx', '.wasm'];
 
 const externalDependencies = [
   'react',
@@ -39,6 +40,7 @@ const baseConfig = {
 };
 
 const basePlugins = [
+  wasm(),
   replace({
     'process.env.NODE_ENV': JSON.stringify('production'),
   }),
@@ -53,7 +55,7 @@ const basePlugins = [
         find: '@',
         replacement: getPath('src'),
         customResolver: resolve({
-          extensions: ['.js', '.jsx', 'tsx'],
+          extensions: ['.js', '.jsx', 'tsx', '.wasm'],
         }),
       },
     ],
@@ -104,7 +106,7 @@ const config = {
       },
     },
   ],
-  plugins: [...basePlugins],
+  plugins: [wasm(), ...basePlugins],
 };
 
 export default config;

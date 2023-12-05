@@ -26,6 +26,7 @@ export const MessageSimple = () => {
     senderInfo = {},
     msgLoading = SendMsgLoadingMap['success'],
     content = '',
+    cipher_suite = 'None',
   } = message;
   const { defaultUserAvatar, defaultUserName } = senderInfo || {};
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +41,6 @@ export const MessageSimple = () => {
   if (!isThread && belong_to_thread_id) {
     return null;
   }
-
 
   let messageObj = undefined;
   try {
@@ -99,8 +99,11 @@ export const MessageSimple = () => {
             {date}&nbsp;{timestamp}
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <MessageInner />
+          <div style={{ color: 'lightgray', fontSize: '0.8em' }}>
+            CipherSuit:{cipher_suite}
+          </div>{' '}
           {msgLoading === SendMsgLoadingMap['loading'] && <Loading className={ss.msgLoad} />}
         </div>
       </div>

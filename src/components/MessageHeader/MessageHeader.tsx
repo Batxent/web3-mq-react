@@ -11,7 +11,7 @@ import { useChatContext, AppTypeEnum } from '../../context/ChatContext';
 import { useChannelActionContext } from '../../context/ChannelActionContext';
 
 import ss from './index.scss';
-import {GroupSettings} from '../GroupSettings';
+import { GroupSettings } from '../GroupSettings';
 
 export type MessageHeaderProps = {
   avatarName?: string;
@@ -33,14 +33,22 @@ export const MessageHeader = (props: PropsWithChildren<MessageHeaderProps>) => {
     return null;
   }
 
-  const { chatid, chat_type, chat_name, avatar_url, avatar_base64, homeOwnerInfo = {} } = activeChannel;
+  const {
+    chatid,
+    chat_type,
+    chat_name,
+    avatar_url,
+    avatar_base64,
+    isMls,
+    homeOwnerInfo = {},
+  } = activeChannel;
   const { defaultUserAvatar, defaultUserName } = homeOwnerInfo;
 
-  const { 
-    avatarName = 'displayTitle', 
-    avatarImg = defaultUserAvatar || avatar_url || avatar_base64, 
-    title = defaultUserName || chat_name || chatid, 
-    avatarSize = 32 
+  const {
+    avatarName = 'displayTitle',
+    avatarImg = defaultUserAvatar || avatar_url || avatar_base64,
+    title = defaultUserName || chat_name || chatid,
+    avatarSize = 32,
   } = props;
 
   return (
@@ -56,6 +64,20 @@ export const MessageHeader = (props: PropsWithChildren<MessageHeaderProps>) => {
         {/* <AvatarGroup name={avatarName} images={avatarImg} size={avatarSize} shape="rounded" /> */}
         <Avatar name={avatarName} size={avatarSize} shape="rounded" image={avatarImg} />
         <div className={ss.title}>{title}</div>
+        {isMls && (
+          <span
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              marginLeft: '10px',
+              fontSize: '0.5em',
+              borderRadius: '5px',
+              padding: '5px',
+            }}
+          >
+            MLS Enabled
+          </span>
+        )}
       </div>
       <div className={ss.operationBar}>
         {chat_type === 'group' && <GroupSettings />}

@@ -32,9 +32,10 @@ export const MessageInput = (props: PropsWithChildren<MessageInputProps>) => {
   }, []);
 
   const sendMessage = useCallback(
-    (text: string) => {
-      // client.messages.sendMessage(text, isThread, !isThread ? replyMsgInfo : null);
-      client.message.sendMessage(text);
+    (text: string, cipher_suite: string) => {
+      let enableMls = cipher_suite == 'MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519' ? true : false;
+      console.log('debug:sendMessage:useCallback:enableMls', enableMls);
+      client.message.sendMessage(text, undefined, undefined, enableMls);
       replyMsgInfo && !isThread && closeReply();
     },
     [replyMsgInfo, isThread],

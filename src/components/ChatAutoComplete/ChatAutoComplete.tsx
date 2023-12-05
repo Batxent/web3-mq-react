@@ -8,6 +8,7 @@ import { useInput } from '../../hooks/useInput';
 import { dateTransform } from '../../utils';
 import { CloseBtnIcon } from '../../icons/CloseBtn';
 import { SendIcon } from '../../icons/SendIcon';
+import { useState } from 'react';
 
 import ss from './index.scss';
 
@@ -39,6 +40,19 @@ export const ChatAutoComplete = (props: PropsWithChildren<ChatAutoCompleteProps>
     // return uid ? client.channel.activeMember[uid].user_name : '';
   }, [replyMsgInfo]);
 
+  // Add a new state variable to store the selected cipher suit
+  const [cipherSuit, setCipherSuit] = useState('None');
+
+  // Add an event handler for the select element
+  const handleSelectChange = (event: any) => {
+    let value = event.target.value;
+    if (value == 'MLS') {
+      value = 'MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519';
+    }
+    console.log('debug:handleSelectChange:', value);
+    setCipherSuit(value);
+  };
+
   const handleEvent = useCallback(
     (e: React.KeyboardEvent) => {
       const { key, keyCode, metaKey } = e;
@@ -51,7 +65,7 @@ export const ChatAutoComplete = (props: PropsWithChildren<ChatAutoCompleteProps>
         if (value === '') {
           return;
         }
-        sendMessage(value);
+        sendMessage(value, cipherSuit);
         setValue('');
       }
     },
@@ -62,13 +76,17 @@ export const ChatAutoComplete = (props: PropsWithChildren<ChatAutoCompleteProps>
     if (!value) {
       return;
     }
-    sendMessage(value);
+    sendMessage(value, cipherSuit);
     setValue('');
   }, [value, replyMsgInfo]);
 
   return (
-    <div className={cx(ss.chatAutoCompleteContainer, { [ss.mobileStyle]: appType !== AppTypeEnum['pc'] })}>
-      <div className={ss.replyMessageBox}>
+    <div
+      className={cx(ss.chatAutoCompleteContainer, {
+        [ss.mobileStyle]: appType !== AppTypeEnum['pc'],
+      })}
+    >
+      <div className={ss.replyMessageBox} style={{ display: 'flex', alignItems: 'center' }}>
         {replyMsgInfo && !isThread && (
           <div className={ss.replyHistoryMessage}>
             <CloseBtnIcon
@@ -91,6 +109,10 @@ export const ChatAutoComplete = (props: PropsWithChildren<ChatAutoCompleteProps>
           placeholder={placeholder}
           onKeyDown={handleEvent}
         />
+        <select className={ss.cipherSuitSelect} onChange={handleSelectChange}>
+          <option value="None">None</option>
+          <option value="MLS">MLS</option>
+        </select>
       </div>
 
       <SendIcon className={ss.sendmessageIcon} onClick={handleClick} />

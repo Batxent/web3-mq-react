@@ -8,7 +8,6 @@ import { SelectRadioTrueIcon } from '../../../icons';
 import { Button } from '../../Button';
 import { Loading } from '../../Loading';
 
-
 type IProps = {
   className?: string;
   style?: React.CSSProperties;
