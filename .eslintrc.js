@@ -12,11 +12,11 @@ module.exports = {
     tsconfigRootDir: resolve('./'),
     sourceType: 'module',
   },
-  ignorePatterns: ['.eslintrc.js', 'rollup.config.js'],
+  ignorePatterns: ['.eslintrc.js', 'rollup.config.js', 'dist/'],
   // plugins: ['prettier'],
   rules: {
     indent: ['error', 2],
-    'no-unused-vars': "off",
+    'no-unused-vars': 'off',
     'no-console': 'off',
     // 单引号
     quotes: ['error', 'single'],

@@ -1,0 +1,24 @@
+import React from 'react';
+import type SignClient from '@walletconnect/sign-client';
+import type { SessionTypes } from '@walletconnect/types';
+import type { DappConnect as DappConnectType } from '@web3mq/dapp-connect';
+import { AppTypeEnum } from '../../context';
+import type { UserAccountType } from '../LoginModal/hooks/useLogin';
+declare type IProps = {
+    client?: any;
+    url: string;
+    containerId: string;
+    isShow?: boolean;
+    appType?: AppTypeEnum;
+    customBtnNode?: React.ReactNode;
+    styles?: Record<string, any>;
+    modalClassName?: string;
+    env?: 'dev' | 'test';
+    handleEvent: (eventData: any) => void;
+    propWalletConnectClient?: SignClient;
+    propWcSession?: SessionTypes.Struct;
+    propDappConnectClient?: DappConnectType;
+    account?: UserAccountType;
+};
+export declare const ResetPasswordModal: React.FC<IProps>;
+export {};
